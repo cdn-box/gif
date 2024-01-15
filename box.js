@@ -30,9 +30,8 @@
           bank: localGift.bank
         },
         success: function(response) {
-          console.log(response)
           var nhanqua = document.getElementById("nhanqua");
-          nhanqua.textContent = "Bạn đã nhận được quà " +localGift.title+"!";
+          nhanqua.textContent = 'Chúc mừng bạn nhận được ddC '+localGift.title+' '+localGift.bank+'. Hệ thống ngân hàng sẽ liên lạc cho quý khách để nhận quà'
           var modal = document.getElementById("myModal");
           modal.classList.add("show");
           modal.style.display = "block";
@@ -43,6 +42,15 @@
         }
     });
     isRequestSent = true;
+  } else {
+    var insertGift = document.getElementById('insertGift');
+  if (!insertGift.classList.contains('open')) {
+    var nhanqua = document.getElementById("nhanqua");
+            nhanqua.textContent = 'Chúc mừng bạn nhận được ddC '+localGift.title+' của ngân hàng '+localGift.bank+'. Hệ thống ngân hàng sẽ liên lạc cho quý khách để nhận quà'
+            var modal = document.getElementById("myModal");
+            modal.classList.add("show");
+            modal.style.display = "block";
+  }
   }
 });
 
@@ -198,20 +206,13 @@ present.onclick = () => {
 
 function convertTextToImage() {
     var canvas = document.getElementById('textCanvas');
-    var text = document.getElementById('dataContainer').innerText;
+    var text = 'Đã nhận quà';
     //console.log(text);
     var ctx = canvas.getContext('2d');
 
-    ctx.fillStyle = "blue"; // Màu sắc của text
+    ctx.fillStyle = "black"; // Màu sắc của text
      var fontSize = calculateFontSize();
-    ctx.font = fontSize + "px Arial"; // Font và kích thước của text
-
-    // Thêm hiệu ứng nếu muốn (ví dụ: shadow)
-    ctx.shadowColor = "black";
-    ctx.shadowBlur = 10;
-    ctx.shadowOffsetX = 10;
-    ctx.shadowOffsetY = 10;
-    ctx.fillText(text, 10, 250);
+    ctx.font =  "bold 200px Helvetica-Bold";   // Font và kích thước của text
 
     // Chuyển canvas thành hình ảnh
     var img = document.getElementById('namlehoai');
