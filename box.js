@@ -1,4 +1,4 @@
- // Lấy tham chiếu đến modal và nút mở modal
+  // Lấy tham chiếu đến modal và nút mở modal
     var modal = document.getElementById("myModal");
     var openModalBtn = document.getElementById("openModalBtn");
 
@@ -84,9 +84,6 @@ present.onclick = () => {
     } 
 
 }
-
-
-
 
 (function () {
   'use strict';
@@ -212,7 +209,7 @@ function convertTextToImage() {
 
     ctx.fillStyle = "black"; // Màu sắc của text
      var fontSize = calculateFontSize();
-    ctx.font =  "bold 200px Helvetica-Bold";   // Font và kích thước của text
+    ctx.font = 200 + "px Arial"; // Font và kích thước của text
 
     // Chuyển canvas thành hình ảnh
     var img = document.getElementById('namlehoai');
