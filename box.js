@@ -258,6 +258,4 @@ function calculateFontSize() {
     
     return fontSize;
 }
-function openModalBankRe() {
-  document.getElementById('exampleModal').classList.add('show');
-}
+
