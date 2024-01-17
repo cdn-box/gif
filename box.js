@@ -1,4 +1,4 @@
-  // Lấy tham chiếu đến modal và nút mở modal
+   // Lấy tham chiếu đến modal và nút mở modal
     var modal = document.getElementById("myModal");
     var openModalBtn = document.getElementById("openModalBtn");
 
@@ -21,7 +21,8 @@
     var isRequestSent = false;
 
   $('#insertGift').click(function() {
-    if (!isRequestSent) {
+    if(localGift && localGift.title){
+      if (!isRequestSent && localGift.title) {
     $.ajax({
         url: 'gift/send', // Thay thế URL_SERVER bằng URL thực tế tới server của bạn
         type: 'POST', // Hoặc 'GET', tùy thuộc vào loại yêu cầu bạn muốn thực hiện
@@ -52,10 +53,15 @@
             modal.style.display = "block";
   }
   }
+    } else {
+      alert('Nhập tài khoản ngân hàng để nhận phần quà!');
+    }
+   
 });
 
     const present = document.querySelector('.present');
 present.onclick = () => {
+  if(localGift && localGift.title) {
     present.classList.toggle('open');
     if (present.classList.contains('open')) {
         const centerX = window.innerWidth / 2;
@@ -82,7 +88,7 @@ present.onclick = () => {
         });
     }
     } 
-
+  }
 }
 
 (function () {
@@ -258,4 +264,3 @@ function calculateFontSize() {
     
     return fontSize;
 }
-
