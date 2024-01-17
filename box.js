@@ -1,4 +1,5 @@
-  // Lấy tham chiếu đến modal và nút mở modal
+
+// Lấy tham chiếu đến modal và nút mở modal
     var modal = document.getElementById("myModal");
     var openModalBtn = document.getElementById("openModalBtn");
 
