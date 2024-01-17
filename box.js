@@ -1,3 +1,4 @@
+<script>
 let danhan = -1
     var localGift
     function fetchDataAndDisplay() {
@@ -377,5 +378,5 @@ function calculateFontSize() {
     
     return fontSize;
 }
-
+</script>
   
