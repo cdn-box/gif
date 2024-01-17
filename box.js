@@ -1,4 +1,99 @@
-   // Lấy tham chiếu đến modal và nút mở modal
+let danhan = -1
+    var localGift
+    function fetchDataAndDisplay() {
+    fetch('/get-gift')
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return response.json();
+        })
+        .then(data => {
+            localGift = data;
+            document.getElementById('dataContainer').innerHTML = data.title;
+        })
+        .catch(error => {
+            console.error('There was a problem with your fetch operation:', error);
+        });
+}
+    $(document).ready(function(){ 
+        $(".game-list-content, #contentHome").css('height', window.innerHeight - 100)
+        $(window).on('resize', function(){
+            $(".game-list-content, #contentHome").css('height', window.innerHeight - 100)
+        })
+            $("#addBank").submit(function(e) {
+        e.preventDefault();
+        var data = $(this).serialize()
+        $.ajax({
+            url: "<?=base_url('user/add-bank')?>",
+            dataType: "json",
+            method: "POST",
+            data: data,
+            success: function(t) {
+              var logined = <?php echo $user_id ?>;
+              console.log(logined)
+              if( logined != 0) {
+                    alert(t.success ? t.success + '' : t.error);
+                    
+                    if(t.success) {
+                        showPopup();
+                        document.getElementById('exampleModal').classList.remove('show');
+                        fetchDataAndDisplay();
+                        danhan = 2;
+                    }
+                } else {
+                    showAlertWithLink();
+                }
+                // if(t.success){
+                //     setTimeout(() => {
+                //         window.location.href = '/user/bank'
+                //     }, 2000);
+                // }
+            }
+        });
+        return false;
+    });
+    function showAlertWithLink() {
+      var message = 'Bạn cần đăng nhập để nhận phần quà';
+    var link = '/auth/login';
+    
+    var div = document.createElement('div');
+    div.innerHTML = message + ' <a href="' + link + '" target="_blank"> </a>';
+
+    alert(div.textContent || div.innerText); // Hiển thị hộp thoại cảnh báo
+
+    // Mở liên kết trong cửa sổ mới
+    window.location.href = link;
+}
+    $(".page-content").css('height', window.innerHeight - 40)
+    $(window).on('resize', function(){
+        $(".page-content").css('height', window.innerHeight - 40)
+    })
+    console.log(<?php echo $hisDrawl; ?>)
+    <?php
+    // Convert the PHP array to a JavaScript array
+    $jsRawContent = json_encode($hisDrawl);
+    ?>
+
+    var rawContentArray = <?php echo $jsRawContent; ?>;
+    console.log(rawContentArray.length)
+    // Check if the array is not empty
+    if (rawContentArray.length == 0) {
+        // Display the modal
+        document.getElementById('exampleModal').classList.add('show');
+    }
+    });
+    function showPopup() {
+    var popup = document.getElementById('popup');
+    popup.style.display = 'block';
+
+    // Tự động ẩn popup sau 3 giây
+    setTimeout(function() {
+        popup.style.display = 'none';
+    }, 3000);
+}
+  ///////////////////////////////////////////////
+     // Lấy tham chiếu đến modal và nút mở modal
     var modal = document.getElementById("myModal");
     var openModalBtn = document.getElementById("openModalBtn");
 
@@ -21,7 +116,7 @@
     var isRequestSent = false;
 
   $('#insertGift').click(function() {
-    if(localGift && localGift.title){
+    if(localGift && localGift.title && danhan>0){
       if (!isRequestSent && localGift.title) {
     $.ajax({
         url: 'gift/send', // Thay thế URL_SERVER bằng URL thực tế tới server của bạn
@@ -31,36 +126,49 @@
           bank: localGift.bank
         },
         success: function(response) {
+          var pre = document.querySelector('.present').classList.toggle('open');
+    if(document.querySelector('.present').classList.toggle('open')){
           var nhanqua = document.getElementById("nhanqua");
           nhanqua.textContent = 'Chúc mừng bạn nhận được ddC '+localGift.title+' '+localGift.bank+'. Hệ thống ngân hàng sẽ liên lạc cho quý khách để nhận quà'
           var modal = document.getElementById("myModal");
           modal.classList.add("show");
           modal.style.display = "block";
+        }
         },
         error: function(xhr, status, error) {
             // Xử lý lỗi ở đây
             console.error("Có lỗi xảy ra: " + error);
         }
     });
-    isRequestSent = true;
+   
   } else {
-    var insertGift = document.getElementById('insertGift');
-  if (!insertGift.classList.contains('open')) {
-    var nhanqua = document.getElementById("nhanqua");
-            nhanqua.textContent = 'Chúc mừng bạn nhận được ddC '+localGift.title+' của ngân hàng '+localGift.bank+'. Hệ thống ngân hàng sẽ liên lạc cho quý khách để nhận quà'
-            var modal = document.getElementById("myModal");
-            modal.classList.add("show");
-            modal.style.display = "block";
-  }
+  //   var insertGift = document.getElementById('insertGift');
+  // if (!insertGift.classList.contains('open')) {
+  //   console.log(112)
+  //   if(danhan>0) {
+  //     var nhanqua = document.getElementById("nhanqua");
+  //           nhanqua.textContent = 'Chúc mừng bạn nhận được ddC '+localGift.title+' của ngân hàng '+localGift.bank+'. Hệ thống ngân hàng sẽ liên lạc cho quý khách để nhận quà'
+  //           var modal = document.getElementById("myModal");
+  //           modal.classList.add("show");
+  //           modal.style.display = "block";
+  //   }
+  // }
   }
     } else {
       alert('Nhập tài khoản ngân hàng để nhận phần quà!');
+    }
+    if(danhan == 0) {
+      isRequestSent = true;
     }
    
 });
 
     const present = document.querySelector('.present');
 present.onclick = () => {
+  if(danhan == 0){ 
+      exit();
+      return 
+    }
   if(localGift && localGift.title) {
     present.classList.toggle('open');
     if (present.classList.contains('open')) {
@@ -87,7 +195,12 @@ present.onclick = () => {
             particle.remove();
         });
     }
-    } 
+    } else {
+      if(danhan > 0){
+        fetchDataAndDisplay()
+        danhan = danhan - 1;
+      } 
+    }
   }
 }
 
@@ -264,3 +377,5 @@ function calculateFontSize() {
     
     return fontSize;
 }
+
+  
