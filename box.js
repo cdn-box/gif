@@ -35,7 +35,7 @@
           var pre = document.querySelector('.present').classList.toggle('open');
     if(document.querySelector('.present').classList.toggle('open')){
           var nhanqua = document.getElementById("nhanqua");
-          nhanqua.textContent = 'Chúc mừng bạn nhận được ddC '+localGift.title+' '+localGift.bank+'. Hệ thống ngân hàng sẽ liên lạc cho quý khách để nhận quà'
+          nhanqua.textContent = 'Chúc mừng bạn nhận được '+localGift.title+' '+localGift.bank+'. Hệ thống ngân hàng sẽ liên lạc cho quý khách để nhận quà'
           var modal = document.getElementById("myModal");
           modal.classList.add("show");
           modal.style.display = "block";
@@ -53,7 +53,7 @@
   //   console.log(112)
   //   if(danhan>0) {
   //     var nhanqua = document.getElementById("nhanqua");
-  //           nhanqua.textContent = 'Chúc mừng bạn nhận được ddC '+localGift.title+' của ngân hàng '+localGift.bank+'. Hệ thống ngân hàng sẽ liên lạc cho quý khách để nhận quà'
+  //           nhanqua.textContent = 'Chúc mừng bạn nhận được '+localGift.title+' của ngân hàng '+localGift.bank+'. Hệ thống ngân hàng sẽ liên lạc cho quý khách để nhận quà'
   //           var modal = document.getElementById("myModal");
   //           modal.classList.add("show");
   //           modal.style.display = "block";
